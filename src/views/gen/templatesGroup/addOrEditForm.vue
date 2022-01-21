@@ -269,7 +269,7 @@ export default {
         commonRequest: {
           head: {
             operationTime: Date.now(),
-            appId: 'generator-plus'
+            appId: process.env.VUE_APP_BUUKLE_APP_ID
           },
           body: {}
         },
