@@ -45,6 +45,7 @@ function getCookie (cname) {
 }
 // request interceptor
 request.interceptors.request.use(config => {
+  config.headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
   const authorization = getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
   if (authorization) {
     config.headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = authorization

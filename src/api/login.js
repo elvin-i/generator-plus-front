@@ -52,7 +52,7 @@ export function getInfo () {
 
 export function getCurrentUserNav () {
   return request({
-    url: userApi.UserMenu,
+    url: process.env.VUE_APP_PERMISSION_SERVER_URL,
     method: 'get'
   })
 }
