@@ -107,6 +107,11 @@ const vueConfig = {
         target: 'http://generator-plus.buukle.top:80',
         ws: false,
         changeOrigin: true
+      },
+      '/server/permission/nav': {
+        target: 'http://permission-center.buukle.top:80',
+        ws: false,
+        changeOrigin: true
       }
     }
   },
