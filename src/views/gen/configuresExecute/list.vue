@@ -110,8 +110,8 @@ export default {
     },
     handleDownLoad (record) {
       const headers = {}
-      // headers.process.env.VUE_APP_AUTHORIZATION_HEADER_KEY = this.getCookie(process.env.VUE_APP_AUTHORIZATION_HEADER_KEY)
       headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = this.getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
+      headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
       fetch(record.zipDownUrl, {
         method: 'GET',
         headers: headers
