@@ -158,7 +158,7 @@
         </a-form-model-item>
         <a-form-model-item
           label="模板内容"
-          prop="name"
+          prop="content"
           :label-col="formItemLayout.labelCol"
           :wrapper-col="formItemLayout.wrapperCol"
         >
@@ -235,6 +235,18 @@ const columnsGroupParam = [
     dataIndex: 'value'
   }
 ]
+const validateName = (rule, value, callback) => {
+  const name = value
+  const arr = name.split('.')
+  console.log(JSON.stringify(arr))
+  if (arr.length !== 3) {
+    return callback(new Error('【模板名称】格式不正确,不符合"A.B.btl"格式,请完善~'))
+  }
+  if (!name.endsWith('.btl')) {
+    return callback(new Error('【模板名称】格式不正确,必须以".btl"结尾~'))
+  }
+  return true
+}
 const data = [
   // eslint-disable-next-line no-template-curly-in-string
   { name: '${dollar}', mean: '【$】(处理beetl的"$"转义问题,模板需要输出$时,直接${dollar} 取即可)' },
@@ -349,17 +361,6 @@ export default {
     handleEdit () {
       this.$refs.form.validate((bool) => {
         if (bool) {
-          const name = this.form.name
-          const arr = name.split('.')
-          console.log(JSON.stringify(arr))
-          if (arr.length !== 3) {
-            message.error('【模板名称】格式不正确,不符合"A.B.btl"格式,请完善~')
-            return
-          }
-          if (!name.endsWith('.btl')) {
-            message.error('【模板名称】格式不正确,必须以".btl"结尾~')
-            return
-          }
           this.commonRequest.head.operationTime = Date.now()
           this.commonRequest.body = this.form
           const commonRequest = this.commonRequest
@@ -425,7 +426,10 @@ export default {
       },
       rules: {
         name: [
-            { required: true, message: '请输入' },
+            {
+              required: true,
+              validator: validateName
+            },
             { max: 50, message: '最多输入50个字符' },
             {
               pattern: /^(?!(\s+$))/,
