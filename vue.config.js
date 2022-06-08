@@ -103,13 +103,13 @@ const vueConfig = {
     disableHostCheck: true,
     port: 8000,
     proxy: {
-      '/opensource/generator/plus': {
-        target: 'http://generator-plus.buukle.top:80',
+      '/server/permission/nav': {
+        target: 'http://permission-center.buukle.top:80',
         ws: false,
         changeOrigin: true
       },
-      '/server/permission/nav': {
-        target: 'http://permission-center.buukle.top:80',
+      '/server/': {
+        target: 'http://generator-plus.buukle.top:80',
         ws: false,
         changeOrigin: true
       }

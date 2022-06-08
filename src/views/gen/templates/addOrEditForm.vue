@@ -349,6 +349,17 @@ export default {
     handleEdit () {
       this.$refs.form.validate((bool) => {
         if (bool) {
+          const name = this.form.name
+          const arr = name.split('.')
+          console.log(JSON.stringify(arr))
+          if (arr.length !== 3) {
+            message.error('【模板名称】格式不正确,不符合"A.B.btl"格式,请完善~')
+            return
+          }
+          if (!name.endsWith('.btl')) {
+            message.error('【模板名称】格式不正确,必须以".btl"结尾~')
+            return
+          }
           this.commonRequest.head.operationTime = Date.now()
           this.commonRequest.body = this.form
           const commonRequest = this.commonRequest
