@@ -202,7 +202,7 @@ export default {
           ],
         password: [
             { required: true, message: '请输入' },
-            { max: 16, message: '最多输入16个字符' }
+            { max: 64, message: '最多输入64个字符' }
           ]
         },
         commonRequest: {
