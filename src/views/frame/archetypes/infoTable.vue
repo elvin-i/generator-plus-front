@@ -111,15 +111,16 @@ export default {
       return moment(text).format('yyyy-MM-DD HH:mm:ss')
     },
     handleDown (url) {
-      const headers = {}
-      headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = this.getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
-      headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
+      // const headers = {}
+      // headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = this.getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
+      // headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
       fetch(url, {
-        method: 'GET',
-        headers: headers
+        method: 'GET'
+        // headers: headers
       }).then(res => res.blob()).then(data => {
           const blobUrl = window.URL.createObjectURL(data)
           const a = document.createElement('a')
+          a.download = url
           a.href = blobUrl
           a.click()
         })

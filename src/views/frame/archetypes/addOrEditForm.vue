@@ -126,7 +126,7 @@ export default {
       const formData = new FormData()
       formData.append('file', data.file)
       request({
-        url: '/app/upload',
+        url: '/upload/uploadMultipartFile',
         method: 'post',
         dataType: 'json',
         data: formData
