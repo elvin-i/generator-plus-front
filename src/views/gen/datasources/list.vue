@@ -62,7 +62,7 @@
             <a @click="handleEdit(record.id)">编辑</a>&nbsp;
             <a @click="handleDelete(record.id)">删除</a>&nbsp;
             <a @click="handleInfo(record.id)">详情</a>&nbsp;
-<!--            <a @click="handleBan(record)">停用</a>-->
+            <a @click="handleTestLink(record.id)" type="primary"> 测试连接 </a>&nbsp;
           </template>
         </span>
       </s-table>
@@ -108,6 +108,26 @@ export default {
     handleSearch () {
       this.$refs.table.pagination.pageNo = 1
       this.$refs.table.refresh(true)
+    },
+    handleTestLink (id) {
+        this.commonRequest.head.operationTime = Date.now()
+        this.bodyById.id = id
+        this.commonRequest.body = this.bodyById
+        const commonRequest = this.commonRequest
+        request({
+          url: '/datasources/testLink',
+          method: 'post',
+          dataType: 'json',
+          data: commonRequest
+        }).then(res => {
+          if (res.head.status === 'S') {
+            message.success(res.head.msg)
+          } else {
+            message.error(res.head.msg)
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
     },
     handleAdd () {
       this.initvalue = {}

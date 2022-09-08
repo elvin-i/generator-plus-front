@@ -53,6 +53,7 @@
           :wrapper-col="formItemLayout.wrapperCol"
         >
           <a-input v-model="form.password" type="password" placeholder="请输入password" />
+          <span style="color:red">密码不能设置为 ****** (6个英文星号), 否则无效</span>
         </a-form-model-item>
 
         <a-form-model-item
@@ -68,7 +69,6 @@
     </div>
     <template slot="footer">
       <a-button @click="handleEdit()" type="primary"> 提交 </a-button>
-      <a-button @click="handleTestLink()" type="primary"> 测试连接 </a-button>
       <a-button @click="handleClose()"> 取消 </a-button>
     </template>
 
@@ -107,29 +107,6 @@ export default {
   methods: {
     show () {
       this.visible = true
-    },
-    handleTestLink () {
-      this.$refs.form.validate((bool) => {
-        if (bool) {
-          this.commonRequest.head.operationTime = Date.now()
-          this.commonRequest.body = this.form
-          const commonRequest = this.commonRequest
-          request({
-            url: '/datasources/testLink',
-            method: 'post',
-            dataType: 'json',
-            data: commonRequest
-          }).then(res => {
-            if (res.head.status === 'S') {
-              message.success(res.head.msg)
-            } else {
-              message.error(res.head.msg)
-            }
-          }).catch((err) => {
-            console.log(err)
-          })
-        }
-      })
     },
     handleClose () {
       this.form = clone(this.initForm)
