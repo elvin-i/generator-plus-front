@@ -56,7 +56,7 @@ export default {
         content: this.$t('layouts.usermenu.dialog.content'),
         onOk: () => {
           request({
-            url: '/auth/logout',
+            url: process.env.VUE_APP_LOGIN_CUBE_SERVER_URL,
             method: 'get',
             dataType: 'json'
           }).then(res => {
