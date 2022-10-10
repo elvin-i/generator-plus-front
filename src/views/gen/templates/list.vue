@@ -64,7 +64,6 @@
         rowKey="id"
         :columns="columns"
         :data="loadData"
-        :alert="true"
         :rowSelection="rowSelection"
         :pagination="{ showTotal: total => `共 ${total} 条记录` }"
       >
