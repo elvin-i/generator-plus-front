@@ -304,7 +304,7 @@ const columns = [
   {
     title: '创建者',
     dataIndex: 'creator',
-    width: '5%'
+    width: '25%'
   },
   {
     title: '状态',
@@ -315,7 +315,7 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'action',
-    width: '30%',
+    width: '10%',
     scopedSlots: { customRender: 'action' }
   }
 ]
