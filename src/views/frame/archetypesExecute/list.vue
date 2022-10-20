@@ -10,7 +10,7 @@
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="状态">
-                <a-select v-model="queryParam.states" placeholder="请选择" default-value="0">
+                <a-select mode="multiple" v-model="queryParam.states" placeholder="请选择" default-value="0">
                   <a-select-option value="3">正常</a-select-option>
                 </a-select>
               </a-form-item>
