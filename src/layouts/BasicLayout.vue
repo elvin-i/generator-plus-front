@@ -24,7 +24,7 @@
     <template v-slot:headerContentRender>
       <div>
         <a-tooltip title="刷新页面">
-          <a-icon type="reload" style="font-size: 18px;cursor: pointer;" @click="() => { $message.info('只是一个DEMO') }" />
+          <a-icon type="reload" style="font-size: 18px;cursor: pointer;" @click="refresh" />
         </a-tooltip>
       </div>
     </template>
@@ -137,6 +137,9 @@ export default {
   },
   methods: {
     i18nRender,
+    refresh () {
+      this.$router.go(0)
+    },
     handleMediaQuery (val) {
       this.query = val
       if (this.isMobile && !val['screen-xs']) {
