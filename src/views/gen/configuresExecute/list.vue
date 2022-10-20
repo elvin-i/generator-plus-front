@@ -4,7 +4,7 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
-            <a-form-item label="日志名称">
+            <a-form-item label="配置名称">
               <a-input v-model="queryParam.name" name="name" placeholder=""/>
             </a-form-item>
           </a-col>
@@ -14,7 +14,7 @@
                 <a-select-option value="">全部</a-select-option>
                 <a-select-option value="1">创建完成</a-select-option>
                 <a-select-option value="2">审批中</a-select-option>
-                              <a-select-option value="3">正常</a-select-option>
+                <a-select-option value="3">正常</a-select-option>
                 <a-select-option value="4">执行中</a-select-option>
                 <a-select-option value="5">执行失败</a-select-option>
                 <a-select-option value="6">执行成功</a-select-option>
@@ -204,7 +204,7 @@ const columns = [
   },
   {
     title: '配置名称',
-    width: '25%',
+    width: '35%',
     dataIndex: 'name',
     scopedSlots: { customRender: 'name' },
     needTotal: true
@@ -218,18 +218,18 @@ const columns = [
   {
     title: '创建者',
     dataIndex: 'creator',
-    width: '5%'
+    width: '25%'
   },
   {
     title: '状态',
     dataIndex: 'status',
-    width: '20%',
+    width: '10%',
     scopedSlots: { customRender: 'status' }
   },
   {
     title: '操作',
     dataIndex: 'action',
-    width: '30%',
+    width: '10%',
     scopedSlots: { customRender: 'action' }
   }
 ]
