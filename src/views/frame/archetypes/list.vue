@@ -4,8 +4,8 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="id">
-                <a-input v-model="queryParam.id" name="id" placeholder=""/>
+              <a-form-item label="名称">
+                <a-input v-model="queryParam.name" name="name" placeholder=""/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">

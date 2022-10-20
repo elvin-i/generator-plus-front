@@ -4,14 +4,23 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="id">
-                <a-input v-model="queryParam.id" name="id" placeholder=""/>
+              <a-form-item label="archetypesId">
+                <a-input v-model="queryParam.archetypesId" name="archetypesId" placeholder=""/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item label="名称">
+                <a-input v-model="queryParam.name" name="name" placeholder=""/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="状态">
                 <a-select mode="multiple" v-model="queryParam.states" placeholder="请选择" default-value="0">
+                  <a-select-option value="1">创建完成</a-select-option>
                   <a-select-option value="3">正常</a-select-option>
+                  <a-select-option value="4">执行中</a-select-option>
+                  <a-select-option value="5">执行成功</a-select-option>
+                  <a-select-option value="6">执行失败</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
