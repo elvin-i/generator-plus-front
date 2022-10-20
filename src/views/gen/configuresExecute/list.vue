@@ -14,7 +14,7 @@
                 <a-select-option value="">全部</a-select-option>
                 <a-select-option value="1">创建完成</a-select-option>
                 <a-select-option value="2">审批中</a-select-option>
-                <a-select-option value="3">正常</a-select-option>
+                              <a-select-option value="3">正常</a-select-option>
                 <a-select-option value="4">执行中</a-select-option>
                 <a-select-option value="5">执行失败</a-select-option>
                 <a-select-option value="6">执行成功</a-select-option>

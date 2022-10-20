@@ -37,11 +37,7 @@
             <a-col :md="8" :sm="24">
               <a-form-item label="状态">
                 <a-select v-model="queryParam.states" placeholder="请选择" default-value="0">
-                  <a-select-option value="">全部</a-select-option>
-                  <a-select-option value="1">创建完成</a-select-option>
-                  <a-select-option value="2">审批中</a-select-option>
                   <a-select-option value="3">正常</a-select-option>
-                  <a-select-option value="4">已禁用</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
