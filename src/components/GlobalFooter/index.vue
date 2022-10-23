@@ -1,10 +1,10 @@
 <template>
   <global-footer class="footer custom-render">
     <template v-slot:links>
-      <a href="https://www.buukle.top" target="_blank">BUUKLE</a>
+      <a href="https://i.buukle.top" target="_blank">BUUKLE</a>
     </template>
     <template v-slot:copyright>
-      <a href="https://github.com/buukle" target="_blank">BUUKLE - github</a>
+      <a>BUUKLE(布壳儿)@2022</a>
     </template>
   </global-footer>
 </template>
