@@ -5,12 +5,12 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="配置名称">
-              <a-input v-model="queryParam.name" name="name" placeholder=""/>
+              <a-input v-model.trim="queryParam.name" name="name" placeholder=""/>
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
             <a-form-item label="状态">
-              <a-select mode="multiple" v-model="queryParam.states" placeholder="请选择" default-value="0">
+              <a-select mode="multiple" v-model.trim="queryParam.states" placeholder="请选择" default-value="0">
                 <a-select-option value="">全部</a-select-option>
                 <a-select-option value="1">创建完成</a-select-option>
                 <a-select-option value="2">审批中</a-select-option>

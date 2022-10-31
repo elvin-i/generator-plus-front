@@ -28,15 +28,15 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-input type="hidden" v-model="queryParam.templatesGroupId" name="templatesGroupId" placeholder=""/>
+            <a-input type="hidden" v-model.trim="queryParam.templatesGroupId" name="templatesGroupId" placeholder=""/>
             <a-col :md="8" :sm="24">
               <a-form-item label="模板名称">
-                <a-input v-model="queryParam.name" name="name" placeholder=""/>
+                <a-input v-model.trim="queryParam.name" name="name" placeholder=""/>
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="状态">
-                <a-select mode="multiple" v-model="queryParam.states" placeholder="请选择" default-value="0">
+                <a-select mode="multiple" v-model.trim="queryParam.states" placeholder="请选择" default-value="0">
                   <a-select-option value="3">正常</a-select-option>
                 </a-select>
               </a-form-item>
