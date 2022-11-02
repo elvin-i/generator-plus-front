@@ -322,7 +322,7 @@ const columns = [
   },
   {
     title: '配置名称',
-    width: '40%',
+    width: '25%',
     dataIndex: 'name',
     scopedSlots: { customRender: 'name' },
     needTotal: true
@@ -347,7 +347,7 @@ const columns = [
   {
     title: '操作',
     dataIndex: 'action',
-    width: '10%',
+    width: '25%',
     scopedSlots: { customRender: 'action' }
   }
 ]
