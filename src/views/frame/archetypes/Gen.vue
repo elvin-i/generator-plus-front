@@ -148,7 +148,18 @@ export default {
             data: commonRequest
           }).then(res => {
             if (res.head.status === 'S') {
-              message.success(res.head.msg)
+              fetch(res.body.url, {
+                method: 'GET'
+              })
+                .then(res => res.blob())
+                .then(data => {
+                  const blobUrl = window.URL.createObjectURL(data)
+                  const a = document.createElement('a')
+                  a.href = blobUrl
+                  a.download = res.body.url
+                  a.click()
+                })
+              message.success('生成成功,可立即保存,也可稍后到日志管理下载源码压缩包~', 5)
               this.handleClose()
               this.$emit('refresh')
             } else {

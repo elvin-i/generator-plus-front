@@ -88,6 +88,7 @@ import { message } from 'ant-design-vue'
 import AddOrEditForm from '@/views/gen/configures/addOrEditForm'
 import InfoTable from '@/views/gen/configures/infoTable'
 import moment from 'moment'
+import { saveAs } from 'file-saver'
 
 message.config({
   duration: 3, // 提示时常单位为s
@@ -123,7 +124,18 @@ export default {
       }).then(res => {
         isgening = false
         if (res.head.status === 'S') {
-          message.success('生成成功,请到日志管理下载源码压缩包~', 3)
+          fetch(res.body.zipDownUrl, {
+            method: 'GET'
+          })
+            .then(res => res.blob())
+            .then(data => {
+              const blobUrl = window.URL.createObjectURL(data)
+              const a = document.createElement('a')
+              a.href = blobUrl
+              a.download = res.body.zipDownUrl
+              a.click()
+            })
+          message.success('生成成功,可立即保存,也可稍后到日志管理下载源码压缩包~', 5)
         } else {
           message.error(res.head.msg)
         }
