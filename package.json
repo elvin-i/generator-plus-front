@@ -10,7 +10,7 @@
     "build": "vue-cli-service build",
     "build:dev": "vue-cli-service build --mode development",
     "build:test": "vue-cli-service build --mode test",
-    "build:prod": "vue-cli-service build --mode production",
+    "build:pro": "vue-cli-service build --mode production",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "lint:nofix": "vue-cli-service lint --no-fix"
