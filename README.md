@@ -12,7 +12,7 @@ based on ant-design-pro
 
 (1) declare
 
-``.env.development  .env.preview  .env.production``
+`` .env.development  .env.preview  .env.production``
 
 ````
 VUE_APP_API_BASE_URL=/buukle-generator
