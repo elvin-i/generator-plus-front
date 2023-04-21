@@ -1,5 +1,6 @@
 {
   "name": "vue-antd-pro",
+  "main": "main.js",
   "version": "3.0.2",
   "private": true,
   "scripts": {
@@ -13,7 +14,9 @@
     "build:pro": "vue-cli-service build --mode production",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "lint:nofix": "vue-cli-service lint --no-fix"
+    "lint:nofix": "vue-cli-service lint --no-fix",
+    "electron-start": "electron .",
+    "electron-packager": "electron-packager . generatorPlus --out generatorPlus --arch=x64 --overwrite --asar --ignore=node_modules"
   },
   "dependencies": {
     "@ant-design-vue/pro-layout": "^1.0.8",
@@ -21,6 +24,8 @@
     "ant-design-vue": "^1.7.6",
     "axios": ">=0.21.1",
     "core-js": "^3.1.2",
+    "electron": "^24.1.2",
+    "electron-packager": "^17.1.1",
     "enquire.js": "^2.1.6",
     "file-saver": "^2.0.5",
     "lodash.clonedeep": "^4.5.0",

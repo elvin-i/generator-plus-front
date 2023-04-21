@@ -124,17 +124,10 @@ export default {
       }).then(res => {
         isgening = false
         if (res.head.status === 'S') {
-          fetch(res.body.zipDownUrl, {
-            method: 'GET'
-          })
-            .then(res => res.blob())
-            .then(data => {
-              const blobUrl = window.URL.createObjectURL(data)
-              const a = document.createElement('a')
-              a.href = blobUrl
-              a.download = res.body.zipDownUrl
-              a.click()
-            })
+          window.ipcRenderer.send("download", {
+            url: res.body.zipDownUrl,
+            directory: res.body.dirLocation + '/' + res.body.name + Math.random() + '.zip',
+          });
           message.success('生成成功,可立即保存,也可稍后到日志管理下载源码压缩包~', 5)
         } else {
           message.error(res.head.msg)

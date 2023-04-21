@@ -104,12 +104,12 @@ const vueConfig = {
     port: 8000,
     proxy: {
       '/server/permission/nav': {
-        target: 'http://permission-center.buukle.top:80',
+        target: 'http://test-permission-center.buukle.top:80',
         ws: false,
         changeOrigin: true
       },
       '/server/': {
-        target: 'http://generator-plus.buukle.top:80',
+        target: 'http://test-generator-plus.buukle.top:80',
         ws: false,
         changeOrigin: true
       }
@@ -120,7 +120,12 @@ const vueConfig = {
   productionSourceMap: false,
   lintOnSave: false,
   // babel-loader no-ignore node_modules/*
-  transpileDependencies: []
+  transpileDependencies: [],
+  pluginOptions: {
+      electronBuilder: {
+        preload: 'preload.js'
+      }
+    }
 }
 
 // preview.pro.loacg.com only do not use in your production;
