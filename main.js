@@ -24,9 +24,8 @@ function createWindow() {
 //  win.loadURL('http://generator-plus.buukle.top/generator-plus/');
   // 本地环境
   win.loadURL('http://local.test-generator-plus.buukle.top:8000/generator-plus/');
-
   // Open the DevTools.
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -66,6 +65,7 @@ app.on("ready", async () => {
             if (state === "completed") {
             //下载完成后传回进度
               win.webContents.send("downing", 100)
+              win.webContents.send("downloaded", directory + '下载完成!')
             }
           })
         })

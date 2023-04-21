@@ -128,7 +128,9 @@ export default {
             url: res.body.zipDownUrl,
             directory: res.body.dirLocation + '/' + res.body.name + Math.random() + '.zip',
           });
-          message.success('生成成功,可立即保存,也可稍后到日志管理下载源码压缩包~', 5)
+          //window.ipcRenderer.on('downloaded',(event, info) => {
+            //message.success(info)
+          //})
         } else {
           message.error(res.head.msg)
         }
