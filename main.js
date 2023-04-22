@@ -8,13 +8,13 @@ const url = require('url')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win,directory,type,obj
 
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: 1600,
+    height: 800,
     webPreferences: {
       contextIsolation: false,
       preload: path.join(__dirname, 'preload.js')
@@ -41,35 +41,35 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
   createWindow()
- //接受到下载信号开始下载
-  ipcMain.on("download", (event, info) => {
+  //接受到下载信号开始下载
+  ipcMain.on("common-download", (event, info) => {
+    type = info.type
+    obj = info.obj
     directory = info.directory
     win.webContents.downloadURL(info.url);
-    //监听下载
-        win.webContents.session.on("will-download",
-        (event, item, webcontent) => {
-        	//设置下载文件名
-          item.setSavePath(directory)
-          item.on('updated', (event, state) => {
-            // 下载的事件
-            if (state === "progressing") {
-              if (!item.isPaused()) {
-              //下载完成后传回进度
-                win.webContents.send("downing",
-                item.getReceivedBytes() * 100 / item.getTotalBytes())
-              }
-            }
-          })
-          item.once('done', (event, state) => {
-            // 下载完成的事件
-            if (state === "completed") {
-            //下载完成后传回进度
-              win.webContents.send("downing", 100)
-              win.webContents.send("downloaded", directory + '下载完成!')
-            }
-          })
-        })
   });
+
+  //监听下载
+  win.webContents.session.on("will-download",(event, item, webcontent) => {
+      //设置下载文件名
+      item.setSavePath(directory)
+      item.on('updated', (event, state) => {
+        // 下载的事件
+        if (state === "progressing") {
+          if (!item.isPaused()) {
+            //下载完成后传回进度
+            win.webContents.send("common-download-ing-callback",type, obj, item.getReceivedBytes() * 100 / item.getTotalBytes())
+          }
+        }
+      })
+      item.once('done', (event, state) => {
+        // 下载完成的事件
+        if (state === "completed") {
+          //下载完成后传回进度
+          win.webContents.send("common-download-success-callback", type, obj ,directory)
+        }
+      })
+    })
 });
 
 // Quit when all windows are closed.

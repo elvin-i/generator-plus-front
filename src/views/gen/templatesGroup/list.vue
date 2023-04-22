@@ -265,20 +265,20 @@ const columns = [
     scopedSlots: { customRender: 'serial' }
   },
   {
-    title: '状态',
-    dataIndex: 'status',
-    width: '5%',
-    scopedSlots: { customRender: 'status' }
-  },
-  {
     title: '名称',
     dataIndex: 'name',
     width: '60%'
   },
   {
+    title: '状态',
+    dataIndex: 'status',
+    width: '10%',
+    scopedSlots: { customRender: 'status' }
+  },
+  {
     title: '操作',
     dataIndex: 'action',
-    width: '30%',
+    width: '25%',
     scopedSlots: { customRender: 'action' }
   }
 ]

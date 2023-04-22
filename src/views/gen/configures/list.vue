@@ -78,6 +78,20 @@
         :initvalue="initvalue"
         @refresh="refresh"
       />
+      <a-modal
+        v-model="visible"
+        :destroyOnClose="true"
+        :width="300"
+        :visible="visible"
+        :title="title"
+      >
+        <a-progress :percent="percent" />
+        <br/>
+        {{ text }}
+        <template slot="footer">
+          <a-button @click="handleClose()"> 朕知道了! </a-button>
+        </template>
+      </a-modal>
     </a-card>
 </template>
 
@@ -88,15 +102,16 @@ import { message } from 'ant-design-vue'
 import AddOrEditForm from '@/views/gen/configures/addOrEditForm'
 import InfoTable from '@/views/gen/configures/infoTable'
 import moment from 'moment'
-import { saveAs } from 'file-saver'
+import { downloadType } from '@/config/commonEums'
 
 message.config({
   duration: 3, // 提示时常单位为s
   top: '40px', // 距离顶部的位置
-  maxCount: 3 // 最多显示提示信息条数(后面的会替换前面的提示)
+  maxCount: 3000 // 最多显示提示信息条数(后面的会替换前面的提示)
 })
 
-var isgening = false
+let isgening = false;
+
 export default {
   name: 'List',
   components: {
@@ -105,17 +120,32 @@ export default {
     Ellipsis,
     AddOrEditForm
   },
+  mounted () {
+    window.ipcRenderer.on('common-download-success-callback', (event,type,obj,info) => {
+      if (type === downloadType.CONFIGURE_EXECUTE.type) {
+       this.text = '下载完成!'
+      }
+    })
+    window.ipcRenderer.on('common-download-ing-callback', (event,type,obj,info) => {
+      if (type === downloadType.CONFIGURE_EXECUTE.type) {
+        this.visible = true
+        this.percent = info
+        this.title = obj.name + '下载进度'
+      }
+    })
+  },
   methods: {
+    handleClose () {
+      this.visible = false
+    },
     handleExecute (id) {
       this.commonRequest.head.operationTime = Date.now()
       this.bodyById.id = id
       this.commonRequest.body = this.bodyById
       const commonRequest = this.commonRequest
-      message.loading('生成中...', 3)
       if (isgening) {
         return false
       }
-      isgening = true
       request({
         url: '/configures/gen',
         method: 'post',
@@ -124,13 +154,13 @@ export default {
       }).then(res => {
         isgening = false
         if (res.head.status === 'S') {
-          window.ipcRenderer.send("download", {
+
+          window.ipcRenderer.send("common-download", {
             url: res.body.zipDownUrl,
-            directory: res.body.dirLocation + '/' + res.body.name + Math.random() + '.zip',
+            type: downloadType.CONFIGURE_EXECUTE.type,
+            obj: res.body,
+            directory: res.body.dirLocation + '/' + res.body.name + Math.random() + '.zip'
           });
-          //window.ipcRenderer.on('downloaded',(event, info) => {
-            //message.success(info)
-          //})
         } else {
           message.error(res.head.msg)
         }
@@ -266,8 +296,11 @@ export default {
     this.columns = columns
     return {
       initvalue: {},
+      percent: 0,
       // create model
       visible: false,
+      title: '导出进度',
+      text: '下载中',
       confirmLoading: false,
       dialogFormVisible: false,
       mdl: null,
@@ -348,7 +381,7 @@ const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    width: '5%',
+    width: '10%',
     scopedSlots: { customRender: 'status' }
   },
   {

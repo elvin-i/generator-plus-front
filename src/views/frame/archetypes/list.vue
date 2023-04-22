@@ -306,7 +306,7 @@ const columns = [
   {
     title: '制品',
     dataIndex: 'url',
-    width: '35%'
+    width: '30%'
   },
   {
     title: '创建时间',
@@ -317,7 +317,7 @@ const columns = [
   {
     title: '状态',
     dataIndex: 'status',
-    width: '5%',
+    width: '10%',
     scopedSlots: { customRender: 'status' }
   },
   {
