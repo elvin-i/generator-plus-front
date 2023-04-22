@@ -113,31 +113,24 @@ div .line-border{
         </div>
         <span style="font-size: 15px; font-weight: 1000; color: #827f7f;"> 本地配置 </span>
         <div class="line-border">
-          <!-- 脚本内容  -->
+          <!-- 本地仓库目录  -->
           <a-form-model-item
-            label="脚本内容"
+            label="本地工程目录"
             prop="dirLocation"
             :label-col="formItemLayout.labelCol"
             :wrapper-col="formItemLayout.wrapperCol"
           >
-            <a-textarea style="background-color: black; color: wheat;width: 100% ;height: 140px;" name="dirLocation" v-model="form.dirLocation" placeholder="请输入解压源码包之后,把源码copy进项目结构的脚本" autocomplete="off"></a-textarea>
-            <span style="color: grey;font-size: 12px;line-height: 1px;">该脚本期望的逻辑实现为:解压源码包之后,执行该脚本将源码copy进正确的项目结构目录中.
-              脚本内容会生成bat脚本文件一并打包到最终的压缩包里.</span>
+            <a-textarea style="width: 100% ;height: 140px;" name="dirLocation" v-model="form.dirLocation" placeholder="" autocomplete="off"></a-textarea>
+            <span style="color: grey;font-size: 12px;line-height: 1px;">点击[执行生成]后,若执行成功,则自动将代码导入本地工程目录</span>
           </a-form-model-item>
-          <!-- 示例脚本 -->
+          <!-- 示例目录 -->
           <a-form-model-item
-            label="示例脚本"
+            label="示例工程目录"
             :label-col="formItemLayout.labelCol"
             :wrapper-col="formItemLayout.wrapperCol"
           >
             <div :wrapper-col="formItemLayout.wrapperCol" style="background:white; padding:5px">
-              <a-card title="" :bordered="false" style="width: 100%">
-                <p>@echo off</p>
-                <p>echo "starting copy resource code ..."</p>
-                <p>xcopy *.* C:\Users\elvin\Desktop\11\buukle-generator\ /s /e /c /y /h /r</p>
-                <p>echo "resource code copy finished !"</p>
-                <p>pause</p>
-              </a-card>
+              <span>C:\Users\elvin\Desktop\11\buukle-generator</span>
             </div>
           </a-form-model-item>
         </div>

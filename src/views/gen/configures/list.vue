@@ -81,13 +81,24 @@
       <a-modal
         v-model="visible"
         :destroyOnClose="true"
-        :width="300"
+        :width="400"
+        :height="300"
         :visible="visible"
         :title="title"
       >
+        <span style="margin-right: 1px;color: black;font-weight: bold">  下载 </span>
+        <div style="float: right;"><span style="margin-right: 1px">  {{ text }} </span></div>
+        <br/>
         <a-progress :percent="percent" />
         <br/>
-        {{ text }}
+        <span style="margin-right: 1px;color: grey">  <ellipsis :length="26" tooltip>文件名 : {{ fileName }}</ellipsis> </span>
+        <br/>
+        <span style="margin-right: 1px;color: black;font-weight: bold">  解压 </span>
+        <div style="float: right;"><span style="margin-right: 1px">  {{ textUnzip }} </span></div>
+        <br/>
+        <a-progress :percent="percentUnzip" />
+        <br/>
+        <span style="margin-right: 1px;color: grey">  <ellipsis :length="26" tooltip>目标地址 : {{ targetDictionary }}</ellipsis> </span>
         <template slot="footer">
           <a-button @click="handleClose()"> 朕知道了! </a-button>
         </template>
@@ -130,7 +141,26 @@ export default {
       if (type === downloadType.CONFIGURE_EXECUTE.type) {
         this.visible = true
         this.percent = info
-        this.title = obj.name + '下载进度'
+        this.fileName = obj.fileName
+      }
+    })
+    window.ipcRenderer.on('common-download-fail-callback', (event,type,obj,info) => {
+      if (type === downloadType.CONFIGURE_EXECUTE.type) {
+        this.text = '下载失败!'
+      }
+    })
+    window.ipcRenderer.on('common-unzip-success-callback', (event,type,obj,info) => {
+      if (type === downloadType.CONFIGURE_EXECUTE.type) {
+        this.percentUnzip = 100
+        this.textUnzip = '解压完成!'
+        this.targetDictionary = obj.dirLocation
+      }
+    })
+    window.ipcRenderer.on('common-unzip-fail-callback', (event,type,obj,info) => {
+      if (type === downloadType.CONFIGURE_EXECUTE.type) {
+        this.percentUnzip = 30
+        this.textUnzip = info
+        this.targetDictionary = obj.dirLocation
       }
     })
   },
@@ -139,6 +169,15 @@ export default {
       this.visible = false
     },
     handleExecute (id) {
+      // 下载进度框初始化
+      this.percent = 0
+      this.percentUnzip = 0
+      this.text = '下载中'
+      this.textUnzip = '未开始'
+      this.visible = false
+      this.fileName = 'xx.zip'
+      this.targetDictionary = 'xx'
+      // 下载进度框初始化
       this.commonRequest.head.operationTime = Date.now()
       this.bodyById.id = id
       this.commonRequest.body = this.bodyById
@@ -154,12 +193,14 @@ export default {
       }).then(res => {
         isgening = false
         if (res.head.status === 'S') {
-
+          let fileName = res.body.name + Math.random() + '.zip'
+          let directory = res.body.dirLocation + '/' + fileName;
+          res.body.fileName = fileName
           window.ipcRenderer.send("common-download", {
             url: res.body.zipDownUrl,
             type: downloadType.CONFIGURE_EXECUTE.type,
             obj: res.body,
-            directory: res.body.dirLocation + '/' + res.body.name + Math.random() + '.zip'
+            directory: directory
           });
         } else {
           message.error(res.head.msg)
@@ -297,10 +338,14 @@ export default {
     return {
       initvalue: {},
       percent: 0,
+      percentUnzip: 0,
       // create model
       visible: false,
       title: '导出进度',
       text: '下载中',
+      textUnzip: '未开始',
+      fileName: 'xx.zip',
+      targetDictionary: 'xx',
       confirmLoading: false,
       dialogFormVisible: false,
       mdl: null,

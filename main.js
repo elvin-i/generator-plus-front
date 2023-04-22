@@ -5,6 +5,10 @@ const {
 } = require('electron')
 const path = require('path')
 const url = require('url')
+//引入文件操作模块
+const fs = require('fs')
+//引入unzip模块
+const unzip = require("node-unzip-2")
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -36,6 +40,64 @@ function createWindow() {
   })
 }
 
+function reName(nowPath){
+  fs.readdir(nowPath,function(err,files){
+    for(var i in files){
+      const file = files[i];
+      const fildir = path.join(nowPath,file);
+      fs.stat(fildir,function(eror,stats){
+        if(eror){
+          console.warn(eror)
+        }else{
+          if(stats.isDirectory()){
+            let newName = fildir.replace("\\targetGeneratedFile","")
+            try {
+              fs.accessSync(newName);
+            } catch (error) {
+              fs.mkdirSync(newName);
+            }
+            reName(fildir)
+          }
+          if(stats.isFile()){
+            let newName = fildir.replace("\\targetGeneratedFile","")
+            fs.renameSync(fildir,newName)
+          }
+        }
+      })
+    }
+  })
+}
+
+function unzipSync(directory,dirLocation) {
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(directory).pipe(unzip.Extract({ path: dirLocation})).on('close', () => {
+      console.log('stream close')
+      resolve()
+    }).on('error', (err) => {
+      reject(err)
+    })
+  })
+}
+
+function sleep(ms) {
+  return new Promise(resolve=>setTimeout(resolve, ms))
+}
+
+function deleteall(path) {
+  var files = [];
+  if(fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function(file, index) {
+      var curPath = path + "/" + file;
+      if(fs.statSync(curPath).isDirectory()) { // recurse
+        deleteall(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -57,16 +119,39 @@ app.on("ready", async () => {
         // 下载的事件
         if (state === "progressing") {
           if (!item.isPaused()) {
-            //下载完成后传回进度
-            win.webContents.send("common-download-ing-callback",type, obj, item.getReceivedBytes() * 100 / item.getTotalBytes())
+            let per = item.getReceivedBytes() * 100 / item.getTotalBytes()
+            win.webContents.send("common-download-ing-callback",type, obj,  Math.floor(per * 100) / 100)
+          }
+        }
+        if (state === "interrupted") {
+          if (!item.isPaused()) {
+            win.webContents.send("common-download-fail-callback",type, obj, directory)
           }
         }
       })
-      item.once('done', (event, state) => {
+      item.once('done',  async (event, state) => {
         // 下载完成的事件
         if (state === "completed") {
-          //下载完成后传回进度
+          // 下载完成后传回进度
           win.webContents.send("common-download-success-callback", type, obj ,directory)
+          // 同步解压
+          try {
+            await unzipSync(directory,obj.dirLocation)
+
+            await sleep(500)
+            // 移动文件
+            await reName(obj.dirLocation + '/targetGeneratedFile')
+
+            await sleep(500)
+            // 删除文件夹
+            await deleteall(obj.dirLocation + '/targetGeneratedFile')
+            await fs.unlinkSync(obj.dirLocation + '//copy.bat')
+            await fs.unlinkSync(directory)
+            // 解压移动完成后传回进度
+            await win.webContents.send("common-unzip-success-callback", type, obj ,directory)
+          } catch (e) {
+            await win.webContents.send("common-unzip-fail-callback", type, obj ,JSON.stringify(e))
+          }
         }
       })
     })
