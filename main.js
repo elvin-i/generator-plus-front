@@ -25,11 +25,11 @@ function createWindow() {
     }
   })
   // 生产环境
-//  win.loadURL('http://generator-plus.buukle.top/generator-plus/');
+  // win.loadURL('http://test-generator-plus.buukle.top/generator-plus/');
   // 本地环境
   win.loadURL('http://local.test-generator-plus.buukle.top:8000/generator-plus/');
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {

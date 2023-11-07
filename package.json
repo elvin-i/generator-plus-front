@@ -16,7 +16,7 @@
     "lint": "vue-cli-service lint",
     "lint:nofix": "vue-cli-service lint --no-fix",
     "electron-start": "electron .",
-    "electron-packager": "electron-packager . generatorPlus --out generatorPlus --arch=x64 --overwrite --asar --ignore=node_modules"
+    "electron-packager": "electron-packager . generatorPlus --platform=win32 --out generatorPlus --arch=x64 --overwrite --asar"
   },
   "dependencies": {
     "@ant-design-vue/pro-layout": "^1.0.8",
