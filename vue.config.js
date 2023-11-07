@@ -109,7 +109,7 @@ const vueConfig = {
         changeOrigin: true
       },
       '/server/': {
-        target: 'http://generator-plus.buukle.top:80',
+        target: 'http://test-generator-plus.buukle.top:80',
         ws: false,
         changeOrigin: true
       }
