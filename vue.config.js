@@ -104,7 +104,7 @@ const vueConfig = {
     port: 8000,
     proxy: {
       '/server/permission/nav': {
-        target: 'http://permission-center.buukle.top:80',
+        target: 'http://test-permission-center.buukle.top:80',
         ws: false,
         changeOrigin: true
       },

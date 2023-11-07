@@ -112,7 +112,12 @@ export default {
       // const headers = {}
       // headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = this.getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
       // headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
-      ipcRenderer.send('common-download', {directory: 'C://',url: record.zipDownUrl })
+      debugger
+      console.log(ipcRenderer)
+      // ipcRenderer.send('common-download', {url: record.zipDownUrl })
+      let info = {url: record.zipDownUrl, type: '.zip', obj:{}, directory:record.dirLocation}
+      alert(JSON.stringify(record.dirLocation))
+      ipcRenderer.send('common-download', info )
     },
     getCookie (cname) {
       var name = cname + '='
