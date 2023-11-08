@@ -114,8 +114,11 @@ export default {
       // headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
       let info = {url: record.zipDownUrl, type: '.zip', obj:{}, directory:record.dirLocation, name:record.name}
       ipcRenderer.send('common-download', info )
-      ipcRenderer.once('common-download-success-callback', (e, type, obj ,directory) => {
-        message.info('下载成功')
+      ipcRenderer.once('common-download-success-callback', (e, obj) => {
+        message.info('下载成功' + obj.directory + obj.name + obj.type)
+      })
+      ipcRenderer.once('common-download-unzip-success-callback', (e, obj) => {
+        message.info('解压成功' + obj.directory + obj.name + obj.type)
       })
     },
     getCookie (cname) {
