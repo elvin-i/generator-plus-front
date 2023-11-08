@@ -112,10 +112,11 @@ export default {
       // const headers = {}
       // headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = this.getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
       // headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
-      debugger
       let info = {url: record.zipDownUrl, type: '.zip', obj:{}, directory:record.dirLocation, name:record.name}
-      alert(JSON.stringify(record.name))
       ipcRenderer.send('common-download', info )
+      ipcRenderer.once('common-download-success-callback', (e, type, obj ,directory) => {
+        message.info('下载成功')
+      })
     },
     getCookie (cname) {
       var name = cname + '='
