@@ -110,7 +110,7 @@ export default {
     },
     handleDownLoad (record) {
       //  electron环境
-      if (ipcRenderer) {
+      if (window.ipcRenderer) {
         let info = {url: record.zipDownUrl, type: '.zip', obj:{}, directory:record.dirLocation, name:record.name}
         ipcRenderer.send('common-download', info )
         ipcRenderer.once('common-download-success-callback', (e, obj) => {
