@@ -109,8 +109,19 @@ export default {
       return moment(text).format('yyyy-MM-DD HH:mm:ss')
     },
     handleDownLoad (record) {
-      // web环境
+      //  electron环境
       if (ipcRenderer) {
+        let info = {url: record.zipDownUrl, type: '.zip', obj:{}, directory:record.dirLocation, name:record.name}
+        ipcRenderer.send('common-download', info )
+        ipcRenderer.once('common-download-success-callback', (e, obj) => {
+          message.info('下载成功' + obj.directory + obj.name + obj.type)
+        })
+        ipcRenderer.once('common-download-unzip-success-callback', (e, obj) => {
+          message.info('解压成功' + obj.directory + obj.name + obj.type)
+        })
+      }
+      // web环境
+      else{
         // const headers = {}
         // headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = this.getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
         // headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
@@ -125,17 +136,6 @@ export default {
             a.download = record.zipDownUrl
             a.click()
           })
-      }
-      // electron环境
-      else{
-        let info = {url: record.zipDownUrl, type: '.zip', obj:{}, directory:record.dirLocation, name:record.name}
-        ipcRenderer.send('common-download', info )
-        ipcRenderer.once('common-download-success-callback', (e, obj) => {
-          message.info('下载成功' + obj.directory + obj.name + obj.type)
-        })
-        ipcRenderer.once('common-download-unzip-success-callback', (e, obj) => {
-          message.info('解压成功' + obj.directory + obj.name + obj.type)
-        })
       }
     },
     getCookie (cname) {
