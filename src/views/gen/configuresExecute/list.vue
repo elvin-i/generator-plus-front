@@ -110,7 +110,7 @@ export default {
     },
     handleDownLoad (record) {
       // web环境
-      if (ipcRenderer === undefined) {
+      if (ipcRenderer) {
         // const headers = {}
         // headers[process.env.VUE_APP_AUTHORIZATION_HEADER_KEY] = this.getCookie(process.env.VUE_APP_AUTHORIZATION_COOKIE_KEY)
         // headers[process.env.VUE_APP_BUUKLE_APP_ID_KEY] = process.env.VUE_APP_BUUKLE_APP_ID
